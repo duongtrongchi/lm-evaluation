@@ -41,23 +41,24 @@
 #   do_sample: false
 #   temperature: 0.0
 
-
 tag:
   - legal
   - vietnamese
 task: vi-law-qa
 
-# Dùng file JSONL local
+# Dùng file JSONL local (tách test và few-shot)
 dataset_path: json
 dataset_name: null
 dataset_kwargs:
   data_files:
-    test: ./lm_eval/data/vi-law-qa.jsonl
+    train: ./lm_eval/data_fewshot/vi-law-qa.jsonl   # <= file few-shot riêng
+    test:  ./lm_eval/data/vi-law-qa.jsonl
 
-# Chạy trên split "test"
+# Chạy trên split "test"; lấy few-shot từ "train"
 training_split: null
-fewshot_split: test
+fewshot_split: train
 test_split: test
+num_fewshot: 8   # số ví dụ few-shot (có thể override bằng --num_fewshot)
 
 # Kiểu đánh giá
 output_type: multiple_choice

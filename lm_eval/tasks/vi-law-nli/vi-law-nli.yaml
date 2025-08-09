@@ -50,16 +50,18 @@ tag:
   - vietnamese
 task: vi-law-nli
 
-# dataset offline từ JSONL
+# dataset offline từ JSONL (tách file few-shot và test)
 dataset_path: json
 dataset_name: null
 dataset_kwargs:
   data_files:
-    test: ./lm_eval/data/vi-law-nli.jsonl
+    train: ./lm_eval/data_fewshot/vi-law-nli.jsonl   # <= file few-shot riêng
+    test:  ./lm_eval/data/vi-law-nli.jsonl
 
 training_split: null
-fewshot_split: test
+fewshot_split: train    # Lấy few-shot từ file train
 test_split: test
+num_fewshot: 8          # số ví dụ few-shot (có thể override bằng CLI)
 
 output_type: multiple_choice
 
