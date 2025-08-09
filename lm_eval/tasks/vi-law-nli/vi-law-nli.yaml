@@ -1,0 +1,45 @@
+tag:
+  - legal
+  - vietnamese
+task: vi-law-nli
+
+# dataset offline từ JSONL
+dataset_path: json
+dataset_name: null
+dataset_kwargs:
+  data_files:
+    test: ./lm_eval/data/vi-law-nli.jsonl
+
+training_split: null
+fewshot_split: test
+test_split: test
+
+output_type: multiple_choice
+
+# Cách hiển thị prompt
+doc_to_text: |-
+  Văn bản pháp lý:
+  {{ legal_document }}
+
+  Câu hỏi cụ thể: {{ specific_question }}
+  Câu hỏi: {{ question }}
+
+  Trả lời câu sau đây:
+  "Điều luật được cung cấp có thể dùng để trả lời câu hỏi trên hay không?"
+  A. Có
+  B. Không
+  Hãy trả lời A hoặc B:
+
+# Map lựa chọn và đáp án đúng
+doc_to_choice: ["A", "B"]
+doc_to_target: "{{ ['A','B'][answer] }}"
+
+metric_list:
+  - metric: acc
+    aggregation: mean
+    higher_is_better: true
+
+# Ép model trả lời ngắn gọn, quyết định
+generation_kwargs:
+  do_sample: false
+  temperature: 0.0

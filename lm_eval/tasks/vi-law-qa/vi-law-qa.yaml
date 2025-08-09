@@ -1,14 +1,14 @@
 tag:
   - legal
   - vietnamese
-task: vn_tax_qa
+task: vi-law-qa
 
 # Dùng file JSONL local
 dataset_path: json
 dataset_name: null
 dataset_kwargs:
   data_files:
-    test: /Users/duongtrongchi/Downloads/06_Projects/vlsp/lm-evaluation/lm_eval/data/vi-law-qa.jsonl
+    test: /teamspace/studios/this_studio/lm-evaluation/lm_eval/data/vi-law-qa.jsonl
 
 # Chạy trên split "test"
 training_split: null
