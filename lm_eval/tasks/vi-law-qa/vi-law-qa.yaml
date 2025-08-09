@@ -1,3 +1,47 @@
+# tag:
+#   - legal
+#   - vietnamese
+# task: vi-law-qa
+
+# # Dùng file JSONL local
+# dataset_path: json
+# dataset_name: null
+# dataset_kwargs:
+#   data_files:
+#     test: ./lm_eval/data/vi-law-qa.jsonl
+
+# # Chạy trên split "test"
+# training_split: null
+# fewshot_split: test
+# test_split: test
+
+# # Kiểu đánh giá
+# output_type: multiple_choice
+
+# # Prompt hiển thị cho mỗi câu hỏi
+# doc_to_text: |-
+#   {{question}}
+#   A. {{choices[0]}}
+#   B. {{choices[1]}}
+#   C. {{choices[2]}}
+#   D. {{choices[3]}}
+#   Trả lời bằng A/B/C/D:
+
+# # Cho mô hình biết các lựa chọn và đáp án đúng
+# doc_to_choice: ["A", "B", "C", "D"]
+# doc_to_target: "{{ ['A','B','C','D'][answer_idx] }}"
+
+# metric_list:
+#   - metric: acc
+#     aggregation: mean
+#     higher_is_better: true
+
+# # Tuỳ chọn: ép mô hình trả lời ngắn gọn
+# generation_kwargs:
+#   do_sample: false
+#   temperature: 0.0
+
+
 tag:
   - legal
   - vietnamese
@@ -8,7 +52,7 @@ dataset_path: json
 dataset_name: null
 dataset_kwargs:
   data_files:
-    test: /teamspace/studios/this_studio/lm-evaluation/lm_eval/data/vi-law-qa.jsonl
+    test: ./lm_eval/data/vi-law-qa.jsonl
 
 # Chạy trên split "test"
 training_split: null
@@ -18,25 +62,28 @@ test_split: test
 # Kiểu đánh giá
 output_type: multiple_choice
 
-# Prompt hiển thị cho mỗi câu hỏi
+# Prompt cho mỗi câu hỏi
 doc_to_text: |-
   {{question}}
   A. {{choices[0]}}
   B. {{choices[1]}}
   C. {{choices[2]}}
   D. {{choices[3]}}
-  Trả lời bằng A/B/C/D:
+  Trả lời bằng CHỈ MỘT KÝ TỰ là chỉ số của đáp án đúng:
+  0 cho A, 1 cho B, 2 cho C, 3 cho D.
+  Trả lời (0/1/2/3):
 
-# Cho mô hình biết các lựa chọn và đáp án đúng
-doc_to_choice: ["A", "B", "C", "D"]
-doc_to_target: "{{ ['A','B','C','D'][answer_idx] }}"
+# Các lựa chọn và đáp án đúng theo INDEX
+doc_to_choice: ["0", "1", "2", "3"]
+doc_to_target: "{{ answer_idx }}"
 
 metric_list:
   - metric: acc
     aggregation: mean
     higher_is_better: true
 
-# Tuỳ chọn: ép mô hình trả lời ngắn gọn
+# Ép mô hình trả lời một token, không lấy mẫu
 generation_kwargs:
   do_sample: false
   temperature: 0.0
+  max_new_tokens: 1
